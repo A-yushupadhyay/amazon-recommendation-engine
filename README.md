@@ -7,6 +7,20 @@ This isn't a notebook demo. It's a working system with a trained model, a real d
 
 ---
 
+
+
+<img width="1920" height="1080" alt="Screenshot (521)" src="https://github.com/user-attachments/assets/47ad58e6-7eb3-464d-aa4e-fb644dbd8a43" />
+<img width="1920" height="1080" alt="Screenshot (515)" src="https://github.com/user-attachments/assets/dc25425d-1578-4117-beef-e46c2d7d5ac0" />
+<img width="1920" height="1080" alt="Screenshot (520)" src="https://github.com/user-attachments/assets/6caf961e-f4d6-4f96-beca-64669d4fff2e" />
+
+
+
+
+
+
+
+---
+
 ## What this project demonstrates
 
 | Area | What was built |
