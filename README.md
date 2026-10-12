@@ -41,7 +41,7 @@ This project implements that algorithm, then wraps it in the serving pieces a re
 
 ## Architecture
 
-<img src="docs/assets/architecture.svg" alt="Architecture. Offline: reviews are cleaned and split by time, an item-item model is trained, and the top 20 similar items per item are loaded into DynamoDB. Online: a request checks the Redis cache, then DynamoDB, and falls back to trending items on a cold start or when DynamoDB is down." width="100%" />
+<img src="docs/architecture.svg" alt="Architecture. Offline: reviews are cleaned and split by time, an item-item model is trained, and the top 20 similar items per item are loaded into DynamoDB. Online: a request checks the Redis cache, then DynamoDB, and falls back to trending items on a cold start or when DynamoDB is down." width="100%" />
 
 <details>
 <summary>Text version of the diagram (Mermaid, editable in <code>docs/architecture.mmd</code>)</summary>
@@ -80,7 +80,7 @@ All numbers below come from this project's own experiments. The serving measurem
 
 ### Offline model quality
 
-<img src="docs/assets/model-quality.svg" alt="Bar charts, axes starting at zero. Precision@10: collaborative filtering 0.0295, popularity baseline 0.0263. Recall@10: collaborative filtering 0.0605, popularity baseline 0.0539. Both are a 12.2% relative improvement." width="100%" />
+<img src="docs/model-quality.svg" alt="Bar charts, axes starting at zero. Precision@10: collaborative filtering 0.0295, popularity baseline 0.0263. Recall@10: collaborative filtering 0.0605, popularity baseline 0.0539. Both are a 12.2% relative improvement." width="100%" />
 
 | Model | Precision@10 | Recall@10 |
 |---|---|---|
@@ -103,7 +103,7 @@ Load test with [Locust](https://locust.io), 20 concurrent users:
 | Throughput | 63.6 requests/sec |
 | Failed requests | 0% |
 
-<img src="docs/assets/tail-latency.svg" alt="Logarithmic bar chart. Median latency 10 ms. p99 before the fix 4,800 ms. p99 after the fix 28 ms, about 170 times lower." width="100%" />
+<img src="docs/tail-latency.svg" alt="Logarithmic bar chart. Median latency 10 ms. p99 before the fix 4,800 ms. p99 after the fix 28 ms, about 170 times lower." width="100%" />
 
 **What went wrong first.** The first load test showed a median of 10 ms but a p99 of **4,800 ms**. That gap is the signature of requests queuing behind each other: FastAPI's synchronous handlers run in a thread pool, and under concurrent load that pool was starved. After changing the concurrency configuration, p99 dropped to about 28 ms (roughly 170x lower). The lesson was to look at the tail, because the median looked healthy the whole time.
 
@@ -119,7 +119,7 @@ Each failure below was tested by stopping the dependency while the system was ru
 
 ### A/B test simulation: offline gain versus online lift
 
-<img src="docs/assets/ab-test.svg" alt="Simulated click-through rate: 18.33% for collaborative filtering (1,462 users) and 18.07% for the popularity baseline (1,444 users). About 1,450 users per variant were simulated but roughly 356,000 per variant would be needed. Relative lift +1.4%, p = 0.858, not statistically significant." width="100%" />
+<img src="docs/ab-test.svg" alt="Simulated click-through rate: 18.33% for collaborative filtering (1,462 users) and 18.07% for the popularity baseline (1,444 users). About 1,450 users per variant were simulated but roughly 356,000 per variant would be needed. Relative lift +1.4%, p = 0.858, not statistically significant." width="100%" />
 
 | Variant | Users | CTR |
 |---|---|---|
