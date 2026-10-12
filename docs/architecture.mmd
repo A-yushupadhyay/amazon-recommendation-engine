@@ -1,0 +1,21 @@
+%% Editable source for the architecture diagram (also embedded in README.md).
+%% Paste into https://mermaid.live to preview. GitHub renders Mermaid natively.
+flowchart LR
+    subgraph OFFLINE["Offline pipeline (batch)"]
+        direction LR
+        R["Amazon Reviews 2023<br/>(Software)"] --> C["Clean +<br/>time-based split"]
+        C --> T["Train item-item<br/>collaborative filtering"]
+        T --> S["Top-20 similar<br/>items per item"]
+        S --> D[("DynamoDB")]
+    end
+
+    subgraph ONLINE["Online serving (per request)"]
+        direction LR
+        Q["Request<br/>item_id"] --> H{"Redis cache<br/>hit?"}
+        H -- "yes" --> RES["Response"]
+        H -- "no" --> L["DynamoDB lookup"]
+        L -- "found" --> P["Cache result"] --> RES
+        L -- "not found / DynamoDB down" --> F["Trending-items<br/>fallback"] --> RES
+    end
+
+    D -. "batch load" .-> L
